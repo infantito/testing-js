@@ -5,6 +5,6 @@ if (!('serviceWorker' in navigator)) {
   // you have an old browser :c
 }
 
-const greeting = 'hello';
+const greeting = "what's up";
 console.log(`${greeting} world test!`);
 [1, 2, 3].forEach(x => console.log(x));
