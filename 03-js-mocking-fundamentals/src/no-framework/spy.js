@@ -14,17 +14,28 @@ function fn(impl = () => {}) {
     return impl(...args)
   }
   mockFn.mock = {calls: []}
+
+  mockFn.mockImplementation = newImpl => (impl = newImpl)
+
   return mockFn
 }
 
-spyOn(utils, 'getWinner')
-utils.getWinner.mockImplementation((p1, p2) => p1)
+function spyOn(obj, prop) {
+  const originalValue = obj[prop]
 
-const winner = thumbWar('Kent C. Dodds', 'Ken Wheeler')
+  obj[prop] = fn()
+  obj[prop].mockRestore = () => (obj[prop] = originalValue)
+}
+
+spyOn(utils, 'getWinner')
+utils.getWinner.mockImplementation((p1, p2) => p2)
+
+const winner = thumbWar('Ken Wheeler', 'Kent C. Dodds')
+
 assert.strictEqual(winner, 'Kent C. Dodds')
 assert.deepStrictEqual(utils.getWinner.mock.calls, [
-  ['Kent C. Dodds', 'Ken Wheeler'],
-  ['Kent C. Dodds', 'Ken Wheeler'],
+  ['Ken Wheeler', 'Kent C. Dodds'],
+  ['Ken Wheeler', 'Kent C. Dodds'],
 ])
 
 // cleanup
