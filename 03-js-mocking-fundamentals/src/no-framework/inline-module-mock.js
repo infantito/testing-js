@@ -3,6 +3,25 @@
  *
  * Execute: Use `npx jest --watch src/no-framework/inline-module-mock.js` to watch the test
  */
+const utilsPath = require.resolve('../utils.js')
+
+function fn(impl = () => {}) {
+  const mockFn = (...args) => {
+    mockFn.mock.calls.push(args)
+    return impl(...args)
+  }
+  mockFn.mock = {calls: []}
+  return mockFn
+}
+
+require.cache[utilsPath] = {
+  id: utilsPath,
+  filename: utilsPath,
+  loaded: true,
+  exports: {
+    getWinner: fn((p1, p2) => p1),
+  },
+}
 
 function fn(impl = () => {}) {
   const mockFn = (...args) => {
@@ -25,6 +44,7 @@ assert.deepStrictEqual(utils.getWinner.mock.calls, [
 ])
 
 // cleanup
+delete require.cache[utilsPath]
 
 /**
  * Hints:
