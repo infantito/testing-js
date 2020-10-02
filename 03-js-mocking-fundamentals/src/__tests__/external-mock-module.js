@@ -8,15 +8,18 @@
  *
  * Execute: Use `npx jest --watch src/__tests__/external-mock-module.js` to watch the test
  */
+require('../__no-framework-mocks__/utils')
+
+const utilsPath = require.resolve('../utils')
+
+const mockUtilsPath = require.resolve('../__no-framework-mocks__/utils')
+
+require.cache[utilsPath] = require.cache[mockUtilsPath]
 
 const thumbWar = require('../thumb-war')
 const utilsMock = require('../utils')
 
-jest.mock('../utils', () => {
-  return {
-    getWinner: jest.fn((p1, p2) => p1),
-  }
-})
+jest.mock('../utils')
 
 test('returns winner', () => {
   const winner = thumbWar('Kent C. Dodds', 'Ken Wheeler')
