@@ -19,17 +19,17 @@
  * Execute: Use `npx jest --watch ./src/no-framework/monkey-patching.js` to watch the test
  */
 
-const assert = require("assert");
-const thumbWar = require("../thumb-war");
-const utils = require("../utils");
+const assert = require('assert');
+const thumbWar = require('../thumb-war');
+const utils = require('../utils');
 
 // Your code:
 // monkey patch
 const originalGetWinner = utils.getWinner;
 utils.getWinner = (p1, p2) => p1;
 
-const winner = thumbWar("Kent C. Dodds", "Ken Wheeler");
-assert.strictEqual(winner, "Kent C. Dodds");
+const winner = thumbWar('Kent C. Dodds', 'Ken Wheeler');
+assert.strictEqual(winner, 'Kent C. Dodds');
 
 // Your code:
 // cleanup
