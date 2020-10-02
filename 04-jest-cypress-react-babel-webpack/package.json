@@ -4,13 +4,14 @@
   "description": "See how to configure Jest and Cypress with React, Babel, and Webpack",
   "main": "index.js",
   "scripts": {
+    "test": "jest",
     "dev": "webpack-dev-server --mode=development",
     "build": "webpack --mode=production",
     "postbuild": "cp ./public/index.html ./dist/index.html",
     "start": "serve --no-clipboard --single --listen 8080 dist",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|json|css|html|md)\"",
     "lint": "eslint --ignore-path .gitignore .",
-    "validate": "npm run lint && npm run build",
+    "validate": "npm run lint && npm run test && npm run build",
     "setup": "npm install && npm run validate"
   },
   "keywords": [],
