@@ -1,4 +1,4 @@
-const superHeros = [{powers: 'fly x'}, {powers: 'fly y'}]
+const superHeros = [{powers: 'fly x'}, {powers: 'fly y'}, {powers: 'fly z'}]
 
 function getFlyingSuperHeros() {
   return superHeros.filter(hero => {
