@@ -2,9 +2,7 @@
   Jest and Cypress with React, Babel, and Webpack
 </h1>
 
-<p align="center" style="font-size: 1.2rem;">
-  See how to configure Jest and Cypress with React, Babel, and Webpack
-</p>
+[![Build Status](https://travis-ci.com/infantito/testing-js.svg?branch=test-travis-codecov)](https://travis-ci.com/infantito/testing-js)
 
 <hr />
 
