@@ -1,9 +1,10 @@
 import React from 'react'
 import {render} from 'calculator-test-utils'
+import {dark} from 'themes'
 import CalculatorDisplay from '../calculator-display'
 
 test('renders', () => {
-  const {container} = render(<CalculatorDisplay value="0" />)
+  const {container} = render(<CalculatorDisplay value="0" />, {theme: dark})
 
   expect(container.firstChild).toMatchInlineSnapshot(`
     .emotion-0 {
