@@ -36,7 +36,7 @@
     "eslint-import-resolver-jest": "^3.0.0",
     "file-loader": "^5.0.2",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^26.4.2",
+    "jest": "^26.5.2",
     "jest-emotion": "^10.0.32",
     "prettier": "^1.19.1",
     "prop-types": "^15.7.2",
