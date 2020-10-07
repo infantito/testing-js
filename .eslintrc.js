@@ -18,7 +18,7 @@ module.exports = {
       settings: {'import/resolver': 'webpack'},
     },
     {
-      files: ['**/src/**'],
+      files: ['**/__tests__/**'],
       settings: {
         'import/resolver': {
           jest: {
