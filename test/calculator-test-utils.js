@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {render as rtlRender} from '@testing-library/react'
 import {ThemeProvider} from 'emotion-theming'
-import * as themes from 'themes'
+import * as themes from '../src/themes'
 
 function render(ui, {theme = themes.dark, ...options} = {}) {
   // you can wrap with different providers as: ReactRouter, Redux, Styled Components, etc
