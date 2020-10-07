@@ -10,4 +10,4 @@ install: echo "install happens as part of setup"
 script: npm run setup
 after_script: npx codecov@3
 branches:
-  only: master
+  only: test-travis-codecov
