@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './auto-scaling-text.module.css'
 
+// test husky and lint-staged
+
 function getScale(node) {
   if (!node) {
     return 1
