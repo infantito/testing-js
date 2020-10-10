@@ -1,7 +1,7 @@
 import React from 'react'
 import {render, screen} from '@testing-library/react'
-import {Editor} from '../post-editor-01-markup'
-
+import userEvent from '@testing-library/user-event'
+import {Editor} from '../post-editor-02-state'
 test('renders a form with title, content, tags, and a submit button', () => {
   render(<Editor />)
 
@@ -11,5 +11,9 @@ test('renders a form with title, content, tags, and a submit button', () => {
 
   screen.getByLabelText(/tags/i)
 
-  screen.getByText(/submit/i)
+  const submitButton = screen.getByText(/submit/i)
+
+  userEvent.click(submitButton)
+
+  expect(submitButton).toBeDisabled()
 })
