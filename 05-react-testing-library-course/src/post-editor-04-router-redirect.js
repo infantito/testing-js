@@ -1,7 +1,10 @@
 import React, {useState} from 'react'
+import {Redirect} from 'react-router'
 import {savePost} from './api'
 
 function Editor({user}) {
+  const [redirect, setRedirect] = useState(false)
+
   const [isSaving, setIsSaving] = useState(false)
 
   const handleSubmit = e => {
@@ -11,12 +14,18 @@ function Editor({user}) {
 
     setIsSaving(true)
 
-    savePost({
+    const newPost = {
       title: title.value,
       content: content.value,
       tags: tags.value.split(',').map(value => value.trim()),
       userId: user.id,
-    })
+    }
+
+    savePost(newPost).then(() => setRedirect(true))
+  }
+
+  if (redirect) {
+    return <Redirect to="/" />
   }
 
   return (

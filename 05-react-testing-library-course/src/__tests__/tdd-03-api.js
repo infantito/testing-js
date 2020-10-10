@@ -11,6 +11,8 @@ afterEach(() => {
 })
 
 test('renders a form with title, content, tags, and a submit button', () => {
+  mockSavePost.mockResolvedValueOnce()
+
   const fakeUser = {
     id: 'user-id',
   }
@@ -19,7 +21,7 @@ test('renders a form with title, content, tags, and a submit button', () => {
 
   const fakePost = {
     title: 'Test Title',
-    content: 'Text Content',
+    content: 'Test Content',
     tags: ['tag1', 'tag2'],
   }
 
@@ -35,7 +37,7 @@ test('renders a form with title, content, tags, and a submit button', () => {
 
   expect(submitButton).toBeDisabled()
 
-  expect(mockSavePost).toHaveBeenLastCalledWith({
+  expect(mockSavePost).toHaveBeenCalledWith({
     ...fakePost,
     userId: fakeUser.id,
   })
