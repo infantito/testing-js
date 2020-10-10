@@ -1,30 +1,24 @@
-import React from 'react'
-import {savePost} from './api'
+import React, {useState} from 'react'
 
-function Editor({user}) {
-  const [isSaving, setIsSaving] = React.useState(false)
-  function handleSubmit(e) {
+function Editor() {
+  const [isSaving, setIsSaving] = useState(false)
+
+  const handleSubmit = e => {
     e.preventDefault()
-    const {title, content, tags} = e.target.elements
-    const newPost = {
-      title: title.value,
-      content: content.value,
-      tags: tags.value.split(',').map(t => t.trim()),
-      authorId: user.id,
-    }
+
     setIsSaving(true)
-    savePost(newPost)
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="title-input">Title</label>
-      <input id="title-input" name="title" />
+      <input type="text" id="title-input" />
 
       <label htmlFor="content-input">Content</label>
-      <textarea id="content-input" name="content" />
+      <textarea id="content-input" />
 
       <label htmlFor="tags-input">Tags</label>
-      <input id="tags-input" name="tags" />
+      <input type="text" id="tags-input" />
 
       <button type="submit" disabled={isSaving}>
         Submit
