@@ -5,6 +5,12 @@ import {ErrorBoundary} from '../error-boundary'
 
 jest.mock('../api')
 
+// this is only here to make the error output not appear in the project's output
+// even though in the course we don't include this bit and leave it in it's incomplete state.
+beforeEach(() => {
+  jest.spyOn(console, 'error').mockImplementation(() => {})
+})
+
 afterEach(() => {
   /**
    * we have to ensure that all of the mocks that we have by default from
@@ -12,6 +18,8 @@ afterEach(() => {
    * in our expect's we're getting our mockReportError called.
    */
   jest.clearAllMocks()
+
+  console.error.mockRestore()
 })
 
 function Bomb({shouldThrow}) {
@@ -44,4 +52,8 @@ test('calls reportError and renders that there was a problem', () => {
   expect(mockReportError).toHaveBeenCalledWith(error, info)
 
   expect(mockReportError).toHaveBeenCalledTimes(1)
+
+  // 1 for jest-dom
+  // 1 for react-dom
+  expect(console.error).toHaveBeenCalledTimes(2)
 })
