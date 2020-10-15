@@ -1,5 +1,5 @@
 import React from 'react'
-import {render, screen, waitFor} from '@testing-library/react'
+import {fireEvent, render, screen, waitFor} from '@testing-library/react'
 import {build, fake, sequence} from 'test-data-bot'
 import userEvent from '@testing-library/user-event'
 import {Redirect as MockRedirect} from 'react-router'
@@ -77,4 +77,26 @@ test('renders a form with title, content, tags, and a submit button', async () =
   // {to: ...} => props
   // {} => context
   await waitFor(() => expect(MockRedirect).toHaveBeenCalledWith({to: '/'}, {}))
+})
+
+test('renders an error message from the server', async () => {
+  const testError = 'test error'
+
+  mockSavePost.mockRejectedValueOnce({data: {error: testError}})
+
+  const fakeUser = userBuilder()
+
+  const {container} = render(<Editor user={fakeUser} />)
+
+  const form = container.querySelector('form')
+
+  fireEvent.submit(form)
+
+  const postError = await screen.findByRole('alert')
+
+  expect(postError).toHaveTextContent(testError)
+
+  const submitButton = screen.getByText(/submit/i)
+
+  expect(submitButton).toBeEnabled()
 })

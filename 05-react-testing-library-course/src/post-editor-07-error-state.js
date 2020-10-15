@@ -7,6 +7,8 @@ function Editor({user}) {
 
   const [isSaving, setIsSaving] = useState(false)
 
+  const [error, setError] = useState(null)
+
   const handleSubmit = e => {
     e.preventDefault()
 
@@ -22,7 +24,14 @@ function Editor({user}) {
       userId: user.id,
     }
 
-    savePost(newPost).then(() => setRedirect(true))
+    savePost(newPost).then(
+      () => setRedirect(true),
+      response => {
+        setIsSaving(false)
+
+        setError(response.data.error)
+      },
+    )
   }
 
   if (redirect) {
@@ -43,6 +52,7 @@ function Editor({user}) {
       <button type="submit" disabled={isSaving}>
         Submit
       </button>
+      {error ? <div role="alert">{error}</div> : null}
     </form>
   )
 }
