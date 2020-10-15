@@ -28,14 +28,10 @@ const userBuilder = build('User').fields({
   id: sequence(s => `user-${s}`),
 })
 
-test('renders a form with title, content, tags, and a submit button', async () => {
-  mockSavePost.mockResolvedValueOnce()
-
+function renderEditor() {
   const fakeUser = userBuilder()
 
-  render(<Editor user={fakeUser} />)
-
-  const preDate = new Date().getTime()
+  const utils = render(<Editor user={fakeUser} />)
 
   const fakePost = postBuilder()
 
@@ -46,6 +42,21 @@ test('renders a form with title, content, tags, and a submit button', async () =
   screen.getByLabelText(/tags/i).value = fakePost.tags.join(', ')
 
   const submitButton = screen.getByText(/submit/i)
+
+  return {
+    ...utils,
+    submitButton,
+    fakeUser,
+    fakePost,
+  }
+}
+
+test('renders a form with title, content, tags, and a submit button', async () => {
+  mockSavePost.mockResolvedValueOnce()
+
+  const {fakeUser, fakePost, submitButton} = renderEditor()
+
+  const preDate = new Date().getTime()
 
   userEvent.click(submitButton)
 
@@ -84,9 +95,7 @@ test('renders an error message from the server', async () => {
 
   mockSavePost.mockRejectedValueOnce({data: {error: testError}})
 
-  const fakeUser = userBuilder()
-
-  const {container} = render(<Editor user={fakeUser} />)
+  const {container, submitButton} = renderEditor()
 
   const form = container.querySelector('form')
 
@@ -95,8 +104,6 @@ test('renders an error message from the server', async () => {
   const postError = await screen.findByRole('alert')
 
   expect(postError).toHaveTextContent(testError)
-
-  const submitButton = screen.getByText(/submit/i)
 
   expect(submitButton).toBeEnabled()
 })
