@@ -17,6 +17,7 @@ function Editor({user}) {
     const newPost = {
       title: title.value,
       content: content.value,
+      date: new Date().toISOString(),
       tags: tags.value.split(',').map(value => value.trim()),
       userId: user.id,
     }

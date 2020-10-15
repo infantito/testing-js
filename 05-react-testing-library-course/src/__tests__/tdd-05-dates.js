@@ -26,9 +26,12 @@ test('renders a form with title, content, tags, and a submit button', async () =
 
   render(<Editor user={fakeUser} />)
 
+  const preDate = new Date().getTime()
+
   const fakePost = {
     title: 'Test Title',
     content: 'Test Content',
+    date: expect.any(String),
     tags: ['tag1', 'tag2'],
   }
 
@@ -48,6 +51,21 @@ test('renders a form with title, content, tags, and a submit button', async () =
     ...fakePost,
     userId: fakeUser.id,
   })
+
+  /**
+   * We just care that it is sometime before the form is submitted but after
+   * the form is successfully saved, and realistically in our test that's going
+   * to be just a couple milliseconds difference, but it makes our test really
+   * resilient.
+   */
+
+  const postDate = new Date().getTime()
+
+  const date = new Date(mockSavePost.mock.calls[0][0].date).getTime()
+
+  expect(date).toBeGreaterThanOrEqual(preDate)
+
+  expect(date).toBeLessThanOrEqual(postDate)
 
   expect(mockSavePost).toHaveBeenCalledTimes(1)
 
