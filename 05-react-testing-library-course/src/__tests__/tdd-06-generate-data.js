@@ -1,5 +1,6 @@
 import React from 'react'
 import {render, screen, waitFor} from '@testing-library/react'
+import {build, fake, sequence} from 'test-data-bot'
 import userEvent from '@testing-library/user-event'
 import {Redirect as MockRedirect} from 'react-router'
 import {savePost as mockSavePost} from '../api'
@@ -17,23 +18,26 @@ afterEach(() => {
   jest.clearAllMocks()
 })
 
+const postBuilder = build('Post').fields({
+  title: fake(f => f.lorem.words()),
+  content: fake(f => f.lorem.paragraphs().replace(/\r/g, '')),
+  tags: fake(f => [f.lorem.words(), f.lorem.words(), f.lorem.words()]),
+})
+
+const userBuilder = build('User').fields({
+  id: sequence(s => `user-${s}`),
+})
+
 test('renders a form with title, content, tags, and a submit button', async () => {
   mockSavePost.mockResolvedValueOnce()
 
-  const fakeUser = {
-    id: 'user-id',
-  }
+  const fakeUser = userBuilder()
 
   render(<Editor user={fakeUser} />)
 
   const preDate = new Date().getTime()
 
-  const fakePost = {
-    title: 'Test Title',
-    content: 'Test Content',
-    date: expect.any(String),
-    tags: ['tag1', 'tag2'],
-  }
+  const fakePost = postBuilder()
 
   screen.getByLabelText(/title/i).value = fakePost.title
 
@@ -49,8 +53,11 @@ test('renders a form with title, content, tags, and a submit button', async () =
 
   expect(mockSavePost).toHaveBeenCalledWith({
     ...fakePost,
+    date: expect.any(String),
     userId: fakeUser.id,
   })
+
+  expect(mockSavePost).toHaveBeenCalledTimes(1)
 
   /**
    * We just care that it is sometime before the form is submitted but after
@@ -66,8 +73,6 @@ test('renders a form with title, content, tags, and a submit button', async () =
   expect(date).toBeGreaterThanOrEqual(preDate)
 
   expect(date).toBeLessThanOrEqual(postDate)
-
-  expect(mockSavePost).toHaveBeenCalledTimes(1)
 
   // {to: ...} => props
   // {} => context
