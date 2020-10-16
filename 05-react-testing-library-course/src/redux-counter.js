@@ -3,9 +3,13 @@ import {useSelector, useDispatch} from 'react-redux'
 
 function Counter() {
   const count = useSelector(state => state.count)
+
   const dispatch = useDispatch()
+
   const increment = () => dispatch({type: 'INCREMENT'})
+
   const decrement = () => dispatch({type: 'DECREMENT'})
+
   return (
     <div>
       <h2>Counter</h2>
