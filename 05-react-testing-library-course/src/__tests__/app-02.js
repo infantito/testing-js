@@ -12,25 +12,27 @@ test('Can fill out a form across multiple pages', async () => {
 
   render(<App />)
 
-  fireEvent.click(screen.getByText(/fil.*form/i))
+  fireEvent.click(await screen.findByText(/fil.*form/i))
 
-  fireEvent.change(screen.getByLabelText(/food/i), {
+  fireEvent.change(await screen.findByLabelText(/food/i), {
     target: {value: testData.food},
   })
 
-  fireEvent.click(screen.getByText(/next/i))
+  fireEvent.click(await screen.findByText(/next/i))
 
-  fireEvent.change(screen.getByLabelText(/drink/i), {
+  fireEvent.change(await screen.findByLabelText(/drink/i), {
     target: {value: testData.drink},
   })
 
-  fireEvent.click(screen.getByText(/review/i))
+  fireEvent.click(await screen.findByText(/review/i))
 
-  expect(screen.getByLabelText(/food/i)).toHaveTextContent(testData.food)
+  expect(await screen.findByLabelText(/food/i)).toHaveTextContent(testData.food)
 
-  expect(screen.getByLabelText(/drink/i)).toHaveTextContent(testData.drink)
+  expect(await screen.findByLabelText(/drink/i)).toHaveTextContent(
+    testData.drink,
+  )
 
-  fireEvent.click(screen.getByText(/confirm/i, {selector: 'button'}))
+  fireEvent.click(await screen.findByText(/confirm/i, {selector: 'button'}))
 
   expect(mockSubmitForm).toHaveBeenCalledWith(testData)
 
@@ -38,5 +40,5 @@ test('Can fill out a form across multiple pages', async () => {
 
   fireEvent.click(await screen.findByText(/home/i))
 
-  expect(screen.getByText(/welcome home/i)).toBeInTheDocument()
+  expect(await screen.findByText(/welcome home/i)).toBeInTheDocument()
 })
