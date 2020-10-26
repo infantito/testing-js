@@ -6,11 +6,14 @@ const MultiPageForm = React.createContext()
 
 function MultiPageFormProvider({initialValues = {}, ...props}) {
   const [initState] = React.useState(initialValues)
+
   const [form, setFormValues] = React.useReducer(
     (s, a) => ({...s, ...a}),
     initState,
   )
+
   const resetForm = () => setFormValues(initialValues)
+
   return (
     <MultiPageForm.Provider
       value={{form, setFormValues, resetForm}}
@@ -21,11 +24,13 @@ function MultiPageFormProvider({initialValues = {}, ...props}) {
 
 function useMultiPageForm() {
   const context = React.useContext(MultiPageForm)
+
   if (!context) {
     throw new Error(
       'useMultiPageForm must be used within a MiltiPageFormProvider',
     )
   }
+
   return context
 }
 
@@ -40,6 +45,7 @@ function Main() {
 
 function Page1({history}) {
   const {form, setFormValues} = useMultiPageForm()
+
   return (
     <>
       <h2>Page 1</h2>
@@ -63,6 +69,7 @@ function Page1({history}) {
 
 function Page2({history}) {
   const {form, setFormValues} = useMultiPageForm()
+
   return (
     <>
       <h2>Page 2</h2>
@@ -86,10 +93,12 @@ function Page2({history}) {
 
 function Confirm({history}) {
   const {form, resetForm} = useMultiPageForm()
+
   function handleConfirmClick() {
     submitForm(form).then(
       () => {
         resetForm()
+
         history.push('/success')
       },
       error => {
@@ -97,6 +106,7 @@ function Confirm({history}) {
       },
     )
   }
+
   return (
     <>
       <h2>Confirm</h2>
