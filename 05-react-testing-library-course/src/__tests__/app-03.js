@@ -1,7 +1,8 @@
 import React from 'react'
-import {render, fireEvent, screen} from '@testing-library/react'
+import {render, screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import {submitForm as mockSubmitForm} from '../api'
-import App from '../app'
+import App from '../app-reach-router'
 
 jest.mock('../api')
 
@@ -12,19 +13,15 @@ test('Can fill out a form across multiple pages', async () => {
 
   render(<App />)
 
-  fireEvent.click(await screen.findByText(/fil.*form/i))
+  userEvent.click(await screen.findByText(/fil.*form/i))
 
-  fireEvent.change(await screen.findByLabelText(/food/i), {
-    target: {value: testData.food},
-  })
+  userEvent.type(await screen.findByLabelText(/food/i), testData.food)
 
-  fireEvent.click(await screen.findByText(/next/i))
+  userEvent.click(await screen.findByText(/next/i))
 
-  fireEvent.change(await screen.findByLabelText(/drink/i), {
-    target: {value: testData.drink},
-  })
+  userEvent.type(await screen.findByLabelText(/drink/i), testData.drink)
 
-  fireEvent.click(await screen.findByText(/review/i))
+  userEvent.click(await screen.findByText(/review/i))
 
   expect(await screen.findByLabelText(/food/i)).toHaveTextContent(testData.food)
 
@@ -32,13 +29,13 @@ test('Can fill out a form across multiple pages', async () => {
     testData.drink,
   )
 
-  fireEvent.click(await screen.findByText(/confirm/i, {selector: 'button'}))
+  userEvent.click(await screen.findByText(/confirm/i, {selector: 'button'}))
 
   expect(mockSubmitForm).toHaveBeenCalledWith(testData)
 
   expect(mockSubmitForm).toHaveBeenCalledTimes(1)
 
-  fireEvent.click(await screen.findByText(/home/i))
+  userEvent.click(await screen.findByText(/home/i))
 
   expect(await screen.findByText(/welcome home/i)).toBeInTheDocument()
 })
