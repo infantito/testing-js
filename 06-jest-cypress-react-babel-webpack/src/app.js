@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import {ThemeProvider} from 'emotion-theming'
 import Calculator from './calculator'
 import * as themes from './themes'
