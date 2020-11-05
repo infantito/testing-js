@@ -7,7 +7,23 @@ describe('anonymous calculator', () => {
 
     cy.findByText(/^\+$/).click()
 
-    cy.findByText(/^2$/).click()
+    cy.findByText(/^2$/)
+      /* debug 01
+       .then(subject => {
+         debugger
+         return subject
+       })
+      */
+      /* debug 02
+        .pause()
+      */
+      /* debug 03
+        .debug()
+      */
+      /* debug 04
+       you can debug from your app directly as well.
+      */
+      .click()
 
     cy.findByText(/^=$/).click()
 
