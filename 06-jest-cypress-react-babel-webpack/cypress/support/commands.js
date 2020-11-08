@@ -1,14 +1,14 @@
-import {buildUser} from '../support/generate'
+import {userBuilder} from '../support/generate'
 
 Cypress.Commands.add('createUser', overrides => {
   // create user
-  const user = buildUser(overrides)
+  const user = userBuilder(overrides)
 
   cy.request({
     url: 'http://localhost:3000/register',
     method: 'POST',
     body: user,
-  }).then(response => ({...response.body.user, ...user}))
+  }).then(({body}) => body.user)
 })
 
 Cypress.Commands.add('assertHome', () => {
