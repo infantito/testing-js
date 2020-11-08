@@ -11,14 +11,7 @@ describe('login', () => {
 
       cy.findByText(/submit/i).click()
 
-      // now let's verify things are set after login
-      cy.url().should('eq', `${Cypress.config().baseUrl}/`)
-
-      cy.window()
-        .its('localStorage.token')
-        .should('be.a', 'string')
-
-      cy.findByTestId('username-display').should('have.text', user.username)
+      cy.assertHome().assertLoggedInAs(user)
     })
   })
 })
