@@ -1,8 +1,8 @@
-import {userBuilder} from '../support/generate'
+import {buildUser} from '../support/generate'
 
 describe('registration', () => {
   it('should register a new user', () => {
-    const user = userBuilder()
+    const user = buildUser()
 
     cy.visit('/')
 
