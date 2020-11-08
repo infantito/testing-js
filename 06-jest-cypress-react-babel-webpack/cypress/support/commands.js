@@ -25,6 +25,12 @@ Cypress.Commands.add('login', user => {
     })
 })
 
+Cypress.Commands.add('loginAsNewUser', () => {
+  cy.createUser().then(user => {
+    cy.login(user)
+  })
+})
+
 Cypress.Commands.add('assertHome', () => {
   cy.url().should('eq', `${Cypress.config().baseUrl}/`)
 })
