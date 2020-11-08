@@ -14,14 +14,7 @@ describe('registration', () => {
 
     cy.findByText(/submit/i).click()
 
-    // Assert redirect to HOME page
-    cy.url().should('eq', `${Cypress.config().baseUrl}/`)
-
-    cy.window()
-      .its('localStorage.token')
-      .should('be.a', 'string')
-
-    cy.findByTestId('username-display').should('have.text', user.username)
+    cy.assertHome().assertLoggedInAs(user)
   })
 
   it(`should show an error message if there's an error registering`, () => {

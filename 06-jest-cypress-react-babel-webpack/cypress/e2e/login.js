@@ -1,5 +1,5 @@
 describe('login', () => {
-  it('should register a new user', () => {
+  it('should login an existing user', () => {
     cy.createUser().then(user => {
       cy.visit('/')
 
