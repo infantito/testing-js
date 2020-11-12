@@ -6,7 +6,9 @@ import userEvent from '@testing-library/user-event'
 
 function Counter() {
   const [count, setCount] = React.useState(0)
+
   const increment = () => setCount(c => c + 1)
+
   return (
     <div>
       <button onClick={increment}>{count}</button>
@@ -16,8 +18,11 @@ function Counter() {
 
 function render(ui) {
   const container = document.createElement('div')
+
   ReactDOM.render(ui, container)
+
   document.body.appendChild(container)
+
   return {
     ...getQueriesForElement(container),
     container,
@@ -30,11 +35,16 @@ function render(ui) {
 
 test('renders a counter', () => {
   const {getByText, cleanup} = render(<Counter />)
+
   const counter = getByText('0')
+
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('1')
 
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('2')
+
   cleanup()
 })
