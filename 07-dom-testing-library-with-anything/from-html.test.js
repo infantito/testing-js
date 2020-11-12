@@ -23,6 +23,7 @@ class Counter {
   handleEvent({type}) {
     if (type === 'click') {
       const {counter} = this.refs
+
       counter.textContent = Number(counter.textContent) + 1
     }
   }
@@ -31,8 +32,11 @@ class Counter {
 // from-html-testing-library
 function render(FromHtmlClass) {
   const instance = new FromHtmlClass()
+
   const container = document.createElement('div')
+
   instance.mount(container)
+
   return {
     container,
     instance,
@@ -45,10 +49,14 @@ function render(FromHtmlClass) {
 // tests:
 test('counter increments', () => {
   const {getByText} = render(Counter)
+
   const counter = getByText('0')
+
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('1')
 
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('2')
 })
