@@ -8,10 +8,12 @@ import '@testing-library/jest-dom/extend-expect'
 
 class Counter extends WidgetBase {
   count = 0
+
   increment() {
     this.count++
     this.invalidate()
   }
+
   render() {
     return v('div', [v('button', {onclick: this.increment}, [`${this.count}`])])
   }
@@ -19,10 +21,15 @@ class Counter extends WidgetBase {
 
 function render(ui: Constructor<WidgetBase>) {
   const container = document.createElement('div')
+
   const Projector = ProjectorMixin(ui)
+
   const projector = new Projector()
+
   projector.async = false
+
   projector.append(container)
+
   return {
     container,
     ...getQueriesForElement(container),
@@ -31,9 +38,14 @@ function render(ui: Constructor<WidgetBase>) {
 
 test('renders counter', () => {
   const {getByText} = render(Counter)
+
   const counter = getByText('0')
+
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('1')
+
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('2')
 })
