@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom/extend-expect'
 import $ from 'jquery'
-import {getQueriesForElement} from '@testing-library/dom'
+import {getByText, getQueriesForElement} from '@testing-library/dom'
 import userEvent from '@testing-library/user-event'
 
 $.fn.countify = function countify() {
@@ -10,9 +10,12 @@ $.fn.countify = function countify() {
     </div>
   `)
   const $button = this.find('button')
+
   $button._count = 0
+
   $button.click(() => {
     $button._count++
+
     $button.text($button._count)
   })
 }
@@ -20,12 +23,18 @@ $.fn.countify = function countify() {
 // tests:
 test('counter increments', () => {
   const div = document.createElement('div')
+
   $(div).countify()
+
   const {getByText} = getQueriesForElement(div)
+
   const counter = getByText('0')
+
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('1')
 
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('2')
 })
