@@ -6,7 +6,9 @@ import userEvent from '@testing-library/user-event'
 
 class Counter extends Preact.Component {
   state = {count: 0}
+
   increment = () => this.setState(({count}) => ({count: count + 1}))
+
   render() {
     return (
       <div>
@@ -18,7 +20,9 @@ class Counter extends Preact.Component {
 
 function render(ui) {
   const container = document.createElement('div')
+
   Preact.render(ui, container)
+
   return {
     container,
     ...getQueriesForElement(container),
@@ -27,10 +31,14 @@ function render(ui) {
 
 test('renders a counter', async () => {
   const {getByText} = render(<Counter />)
+
   const counter = getByText('0')
+
   userEvent.click(counter)
+
   await waitFor(() => expect(counter).toHaveTextContent('1'))
 
   userEvent.click(counter)
+
   await waitFor(() => expect(counter).toHaveTextContent('2'))
 })
