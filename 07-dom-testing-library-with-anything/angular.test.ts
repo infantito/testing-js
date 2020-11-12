@@ -28,6 +28,7 @@ function render(component: any) {
   }).compileComponents()
 
   const fixture = TestBed.createComponent(component)
+
   const container = fixture.debugElement.nativeElement
 
   return getQueriesForElement(container)
@@ -35,11 +36,14 @@ function render(component: any) {
 
 test('renders a counter', () => {
   const {getByText} = render(AppComponent)
+
   const counter = getByText('0')
 
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('1')
 
   userEvent.click(counter)
+
   expect(counter).toHaveTextContent('2')
 })
