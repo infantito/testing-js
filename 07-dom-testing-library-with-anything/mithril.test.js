@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 
 const Counter = () => {
   let count = 0
+
   return {
     view: () =>
       m(
@@ -21,7 +22,9 @@ const Counter = () => {
 
 function render(component) {
   const container = document.createElement('div')
+
   m.mount(container, component)
+
   return {
     container,
     ...getQueriesForElement(container),
@@ -31,10 +34,14 @@ function render(component) {
 // tests:
 test('counter increments', async () => {
   const {getByText} = render(Counter)
+
   const counter = getByText('0')
+
   userEvent.click(counter)
+
   await waitFor(() => expect(counter).toHaveTextContent('1'))
 
   userEvent.click(counter)
+
   await waitFor(() => expect(counter).toHaveTextContent('2'))
 })
