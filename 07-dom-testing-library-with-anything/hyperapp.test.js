@@ -23,7 +23,9 @@ async function render({
   container = document.createElement('div'),
 }) {
   hyperapp.app(state, actions, view, container)
+
   await nextTick()
+
   return {
     container,
     ...getQueriesForElement(container),
@@ -35,10 +37,14 @@ async function render({
 
 test('renders a counter', async () => {
   const {getByText} = await render({state, view, actions})
+
   const counter = getByText('0')
+
   await userEventAsync.click(counter)
+
   expect(counter).toHaveTextContent('1')
 
   await userEventAsync.click(counter)
+
   expect(counter).toHaveTextContent('2')
 })
